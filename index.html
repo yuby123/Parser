@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id" class="bg-slate-50 antialiased">
+<head>
+    <meta charset="utf-8"/>
+    <title>FDSTL Tools Suite</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: { 50:'#eff6ff', 100:'#dbeafe', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 900:'#1e3a8a' }
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-600 pb-20 selection:bg-brand-100 selection:text-brand-900 bg-slate-50">
+
+    <!-- Navbar -->
+    <header class="bg-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="goHome()">
+                <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-md group-hover:bg-brand-600 transition-colors duration-300">
+                    <i class="ph-bold ph-cube text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight tracking-tight">FDSTL <span class="text-slate-400 font-medium">Suite</span></h1>
+                </div>
+            </div>
+            
+            <!-- Navigation Action -->
+            <button id="navBackBtn" onclick="goHome()" class="hidden text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-2 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-all">
+                <i class="ph-bold ph-arrow-left"></i> Back to Home
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 mt-8 relative min-h-[600px]">
+
+        <!-- VIEW 1: HOME (LANDING) - REFINED DESIGN -->
+        <div id="view-home" class="fade-in flex flex-col justify-center min-h-[70vh]">
+            
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">What would you like to do?</h2>
+                <p class="text-slate-500 text-base">Select a tool to process your transaction data</p>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto w-full">
+                
+                <!-- Menu 1: Compare FDSTL -->
+                <div onclick="switchView('view-compare')" class="group cursor-pointer bg-white rounded-[24px] border border-slate-100 p-8 hover:shadow-card-hover shadow-card hover:-translate-y-1 transition-all duration-300 relative overflow-hidden h-80 flex flex-col">
+                    <div class="absolute right-[-40px] top-[40px] text-brand-100/50 pointer-events-none group-hover:scale-105 transition-transform duration-500">
+                        <i class="ph-duotone ph-arrows-left-right text-[180px]"></i>
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-8 z-10 group-hover:bg-brand-100 transition-colors duration-300">
+                        <i class="ph-bold ph-arrows-left-right text-2xl"></i>
+                    </div>
+                    <div class="relative z-10 flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Compare FDSTL</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed max-w-[220px]">
+                            Compare FDSTL fixed-width data against Messaging DE formats.
+                        </p>
+                    </div>
+                    <div class="relative z-10 mt-auto flex items-center text-brand-600 text-sm font-bold group-hover:gap-2 transition-all">
+                        Launch Tool <i class="ph-bold ph-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Menu 2: Compare TRX -->
+                <div onclick="switchView('view-compare-trx')" class="group cursor-pointer bg-white rounded-[24px] border border-slate-100 p-8 hover:shadow-card-hover shadow-card hover:-translate-y-1 transition-all duration-300 relative overflow-hidden h-80 flex flex-col">
+                    <div class="absolute right-[-40px] top-[40px] text-indigo-100/50 pointer-events-none group-hover:scale-105 transition-transform duration-500">
+                        <i class="ph-duotone ph-arrows-split text-[180px]"></i>
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-8 z-10 group-hover:bg-indigo-100 transition-colors duration-300">
+                        <i class="ph-bold ph-arrows-split text-2xl"></i>
+                    </div>
+                    <div class="relative z-10 flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Compare TRX</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed max-w-[220px]">
+                            Compare TRX Data against Messaging DE formats.
+                        </p>
+                    </div>
+                    <div class="relative z-10 mt-auto flex items-center text-indigo-600 text-sm font-bold group-hover:gap-2 transition-all">
+                        Launch Tool <i class="ph-bold ph-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Menu 3: Rekon -->
+                <div onclick="switchView('view-rekon')" class="group cursor-pointer bg-white rounded-[24px] border border-slate-100 p-8 hover:shadow-card-hover shadow-card hover:-translate-y-1 transition-all duration-300 relative overflow-hidden h-80 flex flex-col">
+                    <div class="absolute right-[-40px] top-[40px] text-emerald-100/50 pointer-events-none group-hover:scale-105 transition-transform duration-500">
+                        <i class="ph-duotone ph-file-code text-[180px]"></i>
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-8 z-10 group-hover:bg-emerald-100 transition-colors duration-300">
+                        <i class="ph-bold ph-file-code text-2xl"></i>
+                    </div>
+                    <div class="relative z-10 flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">File Rekon</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed max-w-[220px]">
+                            Convert FDSTL to .REK format with Headers and Trailers.
+                        </p>
+                    </div>
+                    <div class="relative z-10 mt-auto flex items-center text-emerald-600 text-sm font-bold group-hover:gap-2 transition-all">
+                        Launch Tool <i class="ph-bold ph-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Menu 4: Dispute -->
+                <div onclick="switchView('view-dispute')" class="group cursor-pointer bg-white rounded-[24px] border border-slate-100 p-8 hover:shadow-card-hover shadow-card hover:-translate-y-1 transition-all duration-300 relative overflow-hidden h-80 flex flex-col">
+                    <div class="absolute right-[-40px] top-[40px] text-rose-100/50 pointer-events-none group-hover:scale-105 transition-transform duration-500">
+                        <i class="ph-duotone ph-file-x text-[180px]"></i>
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-8 z-10 group-hover:bg-rose-100 transition-colors duration-300">
+                        <i class="ph-bold ph-file-x text-2xl"></i>
+                    </div>
+                    <div class="relative z-10 flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">File Dispute</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed max-w-[220px]">
+                            Generate Dispute File format (DH/RT) from FDSTL Raw Data.
+                        </p>
+                    </div>
+                    <div class="relative z-10 mt-auto flex items-center text-rose-600 text-sm font-bold group-hover:gap-2 transition-all">
+                        Launch Tool <i class="ph-bold ph-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Footer Info -->
+            <div class="text-center mt-20 text-slate-400 text-[10px] font-medium tracking-wide uppercase">
+                &copy; 2025 FDSTL Tools Suite
+            </div>
+        </div>
+
+        <!-- VIEW 2: COMPARE FDSTL -->
+        <div id="view-compare" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Comparator Tool</h2>
+                    <p class="text-xs text-slate-500 mt-1">FDSTL vs Messaging Data Analysis</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-brand-300 transition-all duration-200 flex flex-col h-full overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30 flex justify-between items-center">
+                        <label class="font-bold text-slate-700 flex items-center gap-2 text-sm">
+                            <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
+                            FDSTL Raw Data
+                        </label>
+                        <span class="text-[10px] font-mono font-medium text-slate-400 bg-white px-2 py-1 rounded border border-slate-100">Fixed Width</span>
+                    </div>
+                    <div class="p-2 flex-1 relative">
+                        <textarea id="fdstl_cmp" class="w-full h-48 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste FDSTL raw string here..."></textarea>
+                    </div>
+                </div>
+                <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-pink-300 transition-all duration-200 flex flex-col h-full overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30 flex justify-between items-center">
+                        <label class="font-bold text-slate-700 flex items-center gap-2 text-sm">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            Messaging Data
+                        </label>
+                        <span class="text-[10px] font-mono font-medium text-slate-400 bg-white px-2 py-1 rounded border border-slate-100">Key-Value (DE)</span>
+                    </div>
+                    <div class="p-2 flex-1 relative">
+                        <textarea id="msg_cmp" class="w-full h-48 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste DE-000=0210 DE-002=... data here"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end gap-4 mb-10">
+                <button onclick="clearCompare()" class="text-slate-500 hover:text-slate-800 text-sm font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors">Clear</button>
+                <button onclick="runCompare()" class="px-8 py-3 bg-slate-900 text-white text-sm font-bold rounded-xl shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                    <i class="ph-bold ph-play"></i> Run Comparison
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 2B: COMPARE TRX (NEW) -->
+        <div id="view-compare-trx" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">TRX Comparator</h2>
+                    <p class="text-sm text-slate-500 mt-1">TRX Data vs Messaging Data Analysis</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-300 transition-all duration-200 flex flex-col h-full overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30 flex justify-between items-center">
+                        <label class="font-bold text-slate-700 flex items-center gap-2 text-sm">
+                            <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                            TRX Raw Data
+                        </label>
+                        <span class="text-[10px] font-mono font-medium text-slate-400 bg-white px-2 py-1 rounded border border-slate-100">Fixed Width</span>
+                    </div>
+                    <div class="p-2 flex-1 relative">
+                        <textarea id="trx_raw" class="w-full h-48 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste TRX raw data here..."></textarea>
+                    </div>
+                </div>
+                <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-pink-300 transition-all duration-200 flex flex-col h-full overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/30 flex justify-between items-center">
+                        <label class="font-bold text-slate-700 flex items-center gap-2 text-sm">
+                            <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                            Messaging Data
+                        </label>
+                        <span class="text-[10px] font-mono font-medium text-slate-400 bg-white px-2 py-1 rounded border border-slate-100">Key-Value (DE)</span>
+                    </div>
+                    <div class="p-2 flex-1 relative">
+                        <textarea id="trx_msg" class="w-full h-48 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste DE-000=0210 DE-002=... data here"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end gap-4 mb-10">
+                <button onclick="document.getElementById('trx_raw').value='';document.getElementById('trx_msg').value='';document.getElementById('resultContainer').classList.add('hidden');" class="text-slate-500 hover:text-slate-800 text-sm font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition-colors">Clear</button>
+                <button onclick="runCompareTRX()" class="px-8 py-3 bg-indigo-900 text-white text-sm font-bold rounded-xl shadow-lg hover:bg-indigo-800 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                    <i class="ph-bold ph-play"></i> Compare TRX
+                </button>
+            </div>
+        </div>
+
+        <!-- SHARED RESULT CONTAINER -->
+        <div id="resultContainer" class="hidden space-y-8 fade-in pb-12">
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl"><i class="ph-duotone ph-list-numbers"></i></div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Fields</p>
+                        <p class="text-2xl font-bold text-slate-800" id="statTotal">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow border-b-4 border-b-emerald-500">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl"><i class="ph-fill ph-check-circle"></i></div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Matched</p>
+                        <p class="text-2xl font-bold text-emerald-600" id="statMatch">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow border-b-4 border-b-rose-500">
+                    <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl"><i class="ph-fill ph-warning-circle"></i></div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Mismatches</p>
+                        <p class="text-2xl font-bold text-rose-600" id="statDiff">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center text-xl"><i class="ph-duotone ph-clock"></i></div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Last Check</p>
+                        <p class="text-sm font-bold text-slate-800" id="statTime">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left border-collapse relative">
+                        <thead class="sticky top-0 z-10 bg-white shadow-sm">
+                            <tr class="text-[11px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-200">
+                                <th class="px-8 py-5 w-1/4 bg-slate-50/30">Field Description</th>
+                                <th class="px-8 py-5 text-brand-700 w-1/4 bg-slate-50/30">Left Value</th>
+                                <th class="px-8 py-5 text-pink-700 w-1/4 bg-slate-50/30">Right Value</th>
+                                <th class="px-8 py-5 text-center w-24 bg-slate-50/30">Status</th>
+                                <th class="px-8 py-5 text-slate-400 w-1/4 bg-slate-50/30" id="refHeader">Ref. Sample</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultBody" class="divide-y divide-slate-100 text-xs"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: REKON TOOL -->
+        <div id="view-rekon" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Generate Rekon File</h2>
+                    <p class="text-xs text-slate-500 mt-1">Create .REK file with Header & Trailer</p>
+                </div>
+            </div>
+            <!-- ... (Config Form same as before) ... -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">Header & Trailer Configuration</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6"> 
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Bank Code</label><input type="text" id="cfg_bankCode" value="000008" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Institution ID</label><input type="text" id="cfg_instId" value="360004" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">File Date</label><input type="text" id="cfg_date" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Code Prefix</label><input type="text" id="cfg_codePrefix" value="013" maxlength="3" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" placeholder="000"></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-1 mb-8 focus-within:border-emerald-300 focus-within:ring-2 focus-within:ring-emerald-100 transition-all duration-200">
+                <div class="px-5 py-3 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center rounded-t-lg"><label class="font-bold text-slate-700 flex items-center gap-2 text-sm"><div class="w-1.5 h-4 bg-emerald-500 rounded-full"></div>Source FDSTL Data</label></div>
+                <div class="p-2"><textarea id="fdstl_rekon" class="w-full h-64 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste multiple lines..."></textarea></div>
+            </div>
+            <div class="flex justify-end gap-3">
+                 <button onclick="document.getElementById('fdstl_rekon').value=''" class="text-slate-500 hover:text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors">Clear</button>
+                 <button onclick="previewRekon()" class="px-5 py-2.5 bg-white border border-slate-200 text-emerald-600 text-xs font-bold rounded-lg shadow-sm hover:bg-emerald-50 hover:border-emerald-200 transition-all flex items-center gap-2"><i class="ph-bold ph-eye text-lg"></i> Preview</button>
+                <button onclick="downloadRekon()" class="px-6 py-2.5 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-md hover:bg-emerald-700 hover:-translate-y-0.5 transition-all flex items-center gap-2"><i class="ph-bold ph-file-code text-lg"></i> Download .REK</button>
+            </div>
+             <div id="rekonPreview" class="hidden mt-8"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"><i class="ph-bold ph-magnifying-glass"></i> Content Preview</h3><div class="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden p-6 shadow-2xl"><pre id="rekonPreviewText" class="font-mono text-xs text-emerald-400 whitespace-pre-wrap leading-relaxed"></pre></div></div>
+        </div>
+
+        <!-- VIEW 4: DISPUTE TOOL -->
+        <div id="view-dispute" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-8">
+                <div><h2 class="text-xl font-bold text-slate-900">Generate Dispute File</h2><p class="text-xs text-slate-500 mt-1">Create DH/RT file format from FDSTL</p></div>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 mb-6">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">Dispute Configuration</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6"> 
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Bank Code</label><input type="text" id="cfg_disp_bankCode" value="360003" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Institution ID</label><input type="text" id="cfg_disp_instId" value="360004" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">File Date</label><input type="text" id="cfg_disp_date" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                    <div><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Code Prefix</label><input type="text" id="cfg_disp_codePrefix" value="013" maxlength="3" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                    <div class="md:col-span-1"><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Transaction Code</label><div class="relative"><select id="cfg_disp_code" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none appearance-none cursor-pointer transition-all"><option value="03">03 - Purchase Reversal</option><option value="10">10 - Retrieval</option><option value="11">11 - Fulfilment</option><option value="12">12 - Non Fulfilment</option><option value="21">21 - Credit/Refund Reversal</option><option value="30" selected>30 - Charge Back</option><option value="31">31 - Charge Back Reversal</option><option value="40">40 - Re-presentment</option><option value="41">41 - Re-presentment Reversal</option><option value="50">50 - Second Charge Back</option><option value="51">51 - Second Charge Back Reversal</option></select><div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"><i class="ph-bold ph-caret-down"></i></div></div></div>
+                    <div class="md:col-span-1"><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Reason Code</label><input type="text" id="cfg_disp_reason" value="1001" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                    <div class="md:col-span-2"><label class="block text-[10px] font-bold text-slate-600 uppercase mb-1.5">Description (Max 50)</label><input type="text" id="cfg_disp_desc" value="TEST FCB OFFNET JALIN AS ACQ" maxlength="50" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-1 mb-8 focus-within:border-rose-300 focus-within:ring-2 focus-within:ring-rose-100 transition-all duration-200">
+                <div class="px-5 py-3 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center rounded-t-lg"><label class="font-bold text-slate-700 flex items-center gap-2 text-sm"><div class="w-1.5 h-4 bg-rose-500 rounded-full"></div>Source FDSTL Data</label></div>
+                <div class="p-2"><textarea id="fdstl_dispute" class="w-full h-64 p-4 bg-white border-0 font-mono text-xs leading-relaxed outline-none resize-none text-slate-700 placeholder:text-slate-300" placeholder="Paste FDSTL raw data..."></textarea></div>
+            </div>
+            <div class="flex justify-end gap-3">
+                 <button onclick="document.getElementById('fdstl_dispute').value=''" class="text-slate-500 hover:text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors">Clear</button>
+                 <button onclick="previewDispute()" class="px-5 py-2.5 bg-white border border-slate-200 text-rose-600 text-xs font-bold rounded-lg shadow-sm hover:bg-rose-50 hover:border-rose-200 transition-all flex items-center gap-2"><i class="ph-bold ph-eye text-lg"></i> Preview</button>
+                <button onclick="downloadDispute()" class="px-6 py-2.5 bg-rose-600 text-white text-xs font-bold rounded-lg shadow-md hover:bg-rose-700 hover:-translate-y-0.5 transition-all flex items-center gap-2"><i class="ph-bold ph-file-code text-lg"></i> Download Dispute</button>
+            </div>
+             <div id="disputePreview" class="hidden mt-8"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"><i class="ph-bold ph-magnifying-glass"></i> Content Preview</h3><div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden p-5 shadow-lg"><pre id="disputePreviewText" class="font-mono text-xs text-rose-400 whitespace-pre-wrap leading-relaxed"></pre></div></div>
+        </div>
+    </main>
+
+<script>
+/* === INIT === */
+document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${yyyy}${mm}${dd}`;
+    document.getElementById('cfg_date').value = todayStr;
+    document.getElementById('cfg_disp_date').value = todayStr;
+});
+
+/* === MAPPING FOR FDSTL COMPARE === */
+const mapping = [
+  {"key":"DE-000","de":"DE-000","label":"DE-000","start":1,"end":4,"desc":"MTI"},
+  {"key":"DE-003","de":"DE-003","label":"DE-003","start":8,"end":11,"desc":"Processing Code"},
+  {"key":"DE-039","de":"DE-039","label":"DE-039","start":15,"end":16,"desc":"Response Code"},
+  {"key":"DE-038","de":"DE-038","label":"DE-038","start":17,"end":22,"desc":"BIT 38"},
+  {"key":"DE-002","de":"DE-002","label":"DE-002","start":23,"end":41,"desc":"CARD NUMBER"},
+  {"key":"DE-007","de":"DE-007","label":"DE-007","start":42,"end":48,"desc":"RCV DATE"},
+  {"key":"DE-007b","de":"DE-007","label":"DE-007","start":49,"end":54,"desc":"RCV TIME"},
+  {"key":"DE-011","de":"DE-011","label":"DE-011","start":55,"end":66,"desc":"DE-11 (STAN)"},
+  {"key":"DE-037","de":"DE-037","label":"DE-037","start":67,"end":78,"desc":"DE-37 (RRN)"},
+  {"key":"DE-032a","de":"DE-032","label":"DE-032","start":79,"end":81,"desc":"ACQUIRER"},
+  {"key":"DE-100","de":"DE-100","label":"DE-100","start":82,"end":84,"desc":"ISSUER"},
+  {"key":"DE-018","de":"DE-018","label":"DE-018","start":91,"end":94,"desc":"CHANNEL TYPE"},
+  {"key":"DE-042","de":"DE-042","label":"DE-042","start":95,"end":109,"desc":"POS RETAIL CODE"},
+  {"key":"DE-043","de":"DE-043","label":"DE-043","start":118,"end":157,"desc":"DE-43 Name/Loc"},
+  {"key":"DE-032b","de":"DE-032","label":"DE-032b","start":158,"end":168,"desc":"DE-32"},
+  {"key":"BIN","de":"DE-002","label":"BIN -> DE-002","start":169,"end":179,"desc":"BIN (First 6)"},
+  {"key":"DE-012","de":"DE-012","label":"DE-012","start":180,"end":185,"desc":"TRX TIME"},
+  {"key":"DE-013","de":"DE-013","label":"DE-013","start":186,"end":192,"desc":"TRX DATE"}, 
+  {"key":"DE-013","de":"DE-013","label":"DE-013","start":200,"end":206,"desc":"BUSINESS DATE"},
+  {"key":"DE-012","de":"DE-012","label":"DE-012","start":180,"end":185,"desc":"BUSINESS TIME"},
+  {"key":"DE-049","de":"DE-049","label":"DE-049","start":214,"end":216,"desc":"DE-49 Currency"},
+  {"key":"DE-004","de":"DE-004","label":"DE-004","start":217,"end":231,"desc":"Amount"},
+  {"key":"DE-048","de":"DE-048","label":"DE-048","start":522,"end":531,"desc":"DE-48"},
+  {"key":"DE-102","de":"DE-102","label":"DE-102","start":534,"end":552,"desc":"DE-102"},
+  {"key":"DE-022","de":"DE-022","label":"DE-022","start":553,"end":555,"desc":"DE-22 POS Entry"},
+  {"key":"DE-041","de":"DE-041","label":"DE-041","start":571,"end":590,"desc":"TERMINAL CODE"},
+  {"key":"DE-125-PRE","de":"DE-125","label":"DE-125 (Pre)","start":598,"end":604,"desc":"ADMIN FEE"},
+  {"key":"DE-125-MAIN","de":"DE-125","label":"DE-125 (Main)","start":612,"end":616,"desc":"TRANSFER DEBIT CREDIT"},
+  {"key":"DE-125-OWNER","de":"DE-125","label":"DE-125 (Own)","start":617,"end":618,"desc":"DESTINATION OWNER"},
+  {"key":"DE-125-RETAIL","de":"DE-125","label":"DE-125 (Ret)","start":630,"end":630,"desc":"RETAIL FLAG"}, 
+  {"key":"DE-039","de":"DE-039","label":"DE-039","start":656,"end":657,"desc":"ADDITIONAL RESP CODE"},
+  {"key":"DE-127","de":"DE-127","label":"DE-127","start":686,"end":813,"desc":"DE-127 Composite"}
+];
+
+// FIX: Restored Sample Array Data as requested
+const sampleArray = [
+  {v:"0210", desc:"MTI"}, {v:"2500", desc:"PROC_CODE"}, {v:"00", desc:"RESP_CODE"},
+  {v:"682194", desc:"BIT38"}, {v:"5371763170110910", desc:"CARD_NUMBER"},
+  {v:"1211104", desc:"RCV_DATE"}, {v:"123320", desc:"RCV_TIME"},
+  {v:"001693910359", desc:"BIT11"}, {v:"127711859530", desc:"REF_NUMBER"},
+  {v:"MDR", desc:"ACQUIRER"}, {v:"BNI", desc:"ISSUER"},
+  {v:"7011", desc:"CHANNEL"}, {v:"701171005985780xxxx", desc:"POS_RETAIL"},
+  {v:"LUWANSA HOTEL...", desc:"BIT43"}, {v:"00000000008", desc:"BIT32"},
+  {v:"537176", desc:"BIN"}, {v:"114601", desc:"TRX_TIME"},
+  {v:"1211004", desc:"TRX_DATE"}, 
+  {v:"1211004", desc:"BUS_TIME"}, 
+  {v:"1211004", desc:"BUS_TIME"}, 
+  {v:"1211004", desc:"BUS_DATE"}, {v:"360", desc:"BIT49"},
+  {v:"000000063000000", desc:"AMOUNT"}, {v:"0000000000", desc:"BIT48"},
+  {v:"5221845037084260", desc:"BIT102"}, {v:"051", desc:"POS"},
+  {v:"S1AMWIA009", desc:"TERM_CODE"},
+  {v:"0000000", desc:"DE-125 Prefix"}, {v:"00000", desc:"DE-125 Main"},
+  {v:"O", desc:"Dest Owner"}, {v:"N", desc:"Retail Flag"},
+  {v:"00", desc:"ADDITIONAL_RESP_CODE"}, {v:"Data Composite", desc:"MULTILINE"}
+];
+
+/* === MAPPING FOR TRX COMPARE (NEW) === */
+const mappingTRX = [
+    {"key":"MTI","de":"DE-000","start":1,"end":4,"desc":"Message Type (MTI)"},
+    {"key":"PROC","de":"DE-003","start":6,"end":11,"desc":"Processing Code"},
+    {"key":"RESP","de":"DE-039","start":13,"end":14,"desc":"Response Code"},
+    {"key":"APPR","de":"DE-038","start":16,"end":21,"desc":"Approval Code"},
+    {"key":"PAN","de":"DE-002","start":23,"end":41,"desc":"PAN"},
+    {"key":"SWDATE","de":"DE-007","start":43,"end":48,"desc":"Switching Date"},
+    {"key":"SWTIME","de":"DE-007","start":50,"end":55,"desc":"Switching Time"},
+    {"key":"STAN","de":"DE-011","start":57,"end":68,"desc":"System Trace (STAN)"},
+    {"key":"RRN","de":"DE-037","start":70,"end":81,"desc":"Retrieval Ref Num"},
+    {"key":"ACQID","de":"DE-032","start":83,"end":85,"desc":"Acquirer ID (Part)"},
+    {"key":"ISSID","de":"DE-100","start":87,"end":89,"desc":"Issuer ID (Part)"},
+    {"key":"CARDACC","de":"DE-043","start":91,"end":130,"desc":"Card Acceptor Name"},
+    {"key":"ACQINST","de":"DE-032","start":132,"end":142,"desc":"Acquirer Inst ID"},
+    {"key":"LOCDATE","de":"DE-013","start":144,"end":149,"desc":"Local Date"},
+    {"key":"LOCTIME","de":"DE-012","start":151,"end":156,"desc":"Local Time"},
+    {"key":"CURR","de":"DE-049","start":158,"end":160,"desc":"Currency Code"},
+    {"key":"AMT","de":"DE-004","start":162,"end":167,"desc":"Transaction Amount"},
+    {"key":"TID","de":"DE-041","start":169,"end":184,"desc":"Terminal ID"},
+    {"key":"BUSDATE","de":"DE-015","start":186,"end":191,"desc":"Business Date"}, 
+    {"key":"FLAG","de":"INTERNAL","start":193,"end":193,"desc":"Internal Flag"},
+    {"key":"CHAN","de":"DE-018","start":195,"end":198,"desc":"Channel Type"},
+    {"key":"DESTPART","de":"DE-127","start":200,"end":200,"desc":"Dest Participant"},
+    {"key":"DESTACC","de":"DE-102","start":202,"end":202,"desc":"Dest Account"},
+    {"key":"DESTINST","de":"DE-127","start":204,"end":204,"desc":"Dest Institution"},
+    {"key":"FEE","de":"DE-028","start":206,"end":206,"desc":"Admin Fee"},
+    {"key":"BILLAMT","de":"DE-054","start":208,"end":213,"desc":"Biller Amount"}
+];
+
+function padRight(s,n){ return (s||'').padEnd(n,' '); }
+function escapeHTML(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function parseMessagingLine(line){
+  const out = {};
+  if(!line) return out;
+  const re = /(DE-\d{3}[A-Za-z]?)\s*[:=]\s*(.*?)(?=\s+DE-\d{3}[A-Za-z]?\s*[:=]|$)/gsi;
+  let m;
+  while((m=re.exec(line))!==null){
+    const k = (m[1]||'').toUpperCase().trim();
+    const v = (m[2]||'').trim();
+    out[k] = v;
+    const mm = k.match(/(DE-\d{3})/);
+    if(mm) out[mm[1]] = out[mm[1]] || v;
+  }
+  return out;
+}
+
+function parseFDSTL(lines, mapSchema = mapping){
+  const maxEnd = Math.max(...mapSchema.map(m=>m.end||0));
+  return lines.map(line=>{
+    const row = padRight(line, maxEnd);
+    const obj = {};
+    mapSchema.forEach(m=>{
+      const s = (m.start||1)-1; const e = m.end || s;
+      if(s<0||e<=s) return;
+      const val = row.substring(s,e).trim();
+      if(val!=='') obj[m.key] = val;
+    });
+    return obj;
+  });
+}
+
+/* === NAVIGATION === */
+function switchView(viewId) {
+    ['view-home','view-compare','view-compare-trx','view-rekon','view-dispute'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById(viewId).classList.remove('hidden');
+    const navBtn = document.getElementById('navBackBtn');
+    if(viewId === 'view-home') navBtn.classList.add('hidden'); else navBtn.classList.remove('hidden');
+    document.getElementById('resultContainer').classList.add('hidden'); // Reset result
+}
+function goHome() { switchView('view-home'); }
+
+/* === GENERIC COMPARE LOGIC === */
+function runCompareGeneric(txtRaw, txtMsg, mapSchema) {
+  if(!txtRaw && !txtMsg) return;
+
+  const fdRecs = parseFDSTL(txtRaw.split(/\r?\n/).filter(Boolean), mapSchema);
+  const msgRecs = txtMsg.split(/\r?\n/).filter(Boolean).map(parseMessagingLine);
+  const fd = fdRecs[0] || {}; const msg = msgRecs[0] || {};
+
+  let html = '';
+  let stats = { total: 0, match: 0, diff: 0 };
+
+  mapSchema.forEach((m,i)=>{
+    stats.total++;
+    let fv = fd[m.key] || '';
+    let gv = msg[m.de] || '';
+
+    // --- SPECIAL LOGIC (Shared & Specific) ---
+    let ok = fv === gv;
+
+    // Numeric Padding
+    if (['DE-004','AMT','DE-011','STAN','DE-032b'].includes(m.key) || m.key.includes('AMT')) {
+        ok = fv.replace(/^0+/, '') === gv.replace(/^0+/, '');
+    }
+    // PAN Masking
+    if (m.key === 'DE-002' || m.key === 'PAN') {
+        if (gv.match(/x/i)) {
+             const pattern = gv.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/x/gi, '.');
+             ok = new RegExp(`^${pattern}$`).test(fv);
+        }
+    }
+    // Date/Time Logic for TRX
+    if (m.key === 'STAN' && fv.length > 6) { // TRX STAN is 11 chars, right 6 is real STAN
+        fv = fv.substring(fv.length - 6);
+        ok = fv === gv;
+    }
+    
+    // Date Match Logic for TRX SWDATE
+    if (m.key === 'SWDATE') {
+        // Left (TRX): Take last 4 (e.g. 250203 -> 0203)
+        // Right (Msg): Take first 4 (e.g. 0203031826 -> 0203)
+        const leftVal = fv.length >= 4 ? fv.slice(-4) : fv;
+        const rightVal = gv.length >= 4 ? gv.slice(0, 4) : gv;
+        ok = leftVal === rightVal;
+    }
+
+    // FIX: Time Match Logic for TRX SWTIME
+    if (m.key === 'SWTIME') {
+        // Left (TRX): 031826
+        // Right (Msg DE-007): 0203031826 (MMDDHHMMSS)
+        // Logic: Compare Left with Right's LAST 6 digits (HHMMSS)
+        const rightVal = gv.length >= 6 ? gv.slice(-6) : gv;
+        ok = fv === rightVal;
+    }
+
+    // FIX: Date Match Logic for TRX LOCDATE & BUSDATE (New Request)
+    // Left (TRX): 250203 (YYMMDD)
+    // Right (Msg): 0203 (MMDD)
+    // Logic: Take last 4 digits of Left (0203) and compare with Right
+    if (m.key === 'LOCDATE' || m.key === 'BUSDATE') {
+        const leftVal = fv.length >= 4 ? fv.slice(-4) : fv;
+        ok = leftVal === gv;
+    }
+
+    // FIX: Logic for FDSTL DE-007 (RCV DATE)
+    // Left: 1251110 (Last 4: 1110) vs Right: 1110100223 (First 4: 1110)
+    if (m.key === 'DE-007') {
+        const leftVal = fv.length >= 4 ? fv.slice(-4) : fv;
+        const rightVal = gv.length >= 4 ? gv.slice(0, 4) : gv;
+        ok = leftVal === rightVal;
+    }
+
+    // FIX: Logic for FDSTL DE-007b (RCV TIME)
+    // Left: 100223 vs Right: 1110100223 (Last 6: 100223)
+    if (m.key === 'DE-007b') {
+        const rightVal = gv.length >= 6 ? gv.slice(-6) : gv;
+        ok = fv === rightVal;
+    }
+    
+    // FIX: Skip Validation for Specific TRX Fields (Requested)
+    let isSkipped = false;
+    // Existing skip logic for FDSTL
+    if (['DE-125-PRE', 'DE-125-MAIN', 'DE-125-OWNER', 'DE-125-RETAIL'].includes(m.key)) {
+        ok = true; isSkipped = true;
+    }
+    // New skip logic for TRX
+    if (['DESTPART', 'DESTACC', 'DESTINST', 'FEE', 'BILLAMT'].includes(m.key)) {
+        ok = true; isSkipped = true;
+    }
+
+    // --- BIN LOGIC ---
+    if (m.key === 'BIN') {
+        const leftClean = fv.replace(/\s+/g, '');
+        const rightClean = gv.replace(/\s+/g, '');
+        const left6 = leftClean.substring(0, 6);
+        const right6 = rightClean.substring(0, 6);
+        ok = left6 === right6;
+        fv = left6;
+        gv = right6;
+    }
+    
+    // --- TRX TIME (DE-012) LOGIC ---
+    if (m.key === 'DE-013') {
+        const leftClean = fv.trim();
+        const rightClean = gv.trim();
+        const leftCompare = leftClean.length >= 4 ? leftClean.slice(-4) : leftClean;
+        const rightCompare = rightClean.length >= 4 ? rightClean.slice(0, 4) : rightClean; 
+        ok = leftCompare === rightCompare;
+    }
+
+    if(ok) stats.match++; else stats.diff++;
+
+    // Update Status Badge Style for SKIP
+    let statusBadge;
+    
+    if (isSkipped) {
+         statusBadge = `<div class="flex flex-col items-center justify-center"><span class="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-1"><i class="ph-bold ph-minus"></i></span><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SKIP</span></div>`;
+    } else if (ok) {
+         statusBadge = `<div class="flex flex-col items-center justify-center"><span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-1"><i class="ph-bold ph-check"></i></span><span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">OK</span></div>`;
+    } else {
+         statusBadge = `<div class="flex flex-col items-center justify-center"><span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-1"><i class="ph-bold ph-x"></i></span><span class="text-[10px] font-bold text-rose-700 uppercase tracking-wider">Diff</span></div>`;
+    }
+
+    // Update Row Class for SKIP
+    let rowClass;
+    if (isSkipped) {
+        rowClass = "bg-slate-50/50 opacity-75";
+    } else if (ok) {
+        rowClass = "hover:bg-slate-50 transition-colors";
+    } else {
+        rowClass = "bg-rose-50 hover:bg-rose-100 border-l-4 border-l-rose-500 transition-colors";
+    }
+    
+    const textFvClass = ok ? (isSkipped ? "text-slate-500" : "text-brand-700") : "text-rose-700 font-bold";
+    const textGvClass = ok ? (isSkipped ? "text-slate-500" : "text-pink-700") : "text-rose-700 font-bold";
+
+    let technicalIdDisplay = `<div class="mt-1.5 w-max"><span class="inline-flex items-center justify-center rounded border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-500 font-mono tracking-tight shadow-sm select-all leading-none">${m.label || m.key}</span></div>`;
+
+    // Determine Ref Value (Only for FDSTL Compare, mappingTRX doesn't use sampleArray)
+    let refVal = "";
+    if (mapSchema === mapping) { // If using FDSTL mapping
+         const svObj = sampleArray[i] || {};
+         refVal = svObj.v || "";
+    }
+
+    html += `
+    <tr class="${rowClass} group">
+        <td class="px-8 py-5 font-semibold text-slate-700 border-b border-slate-100 text-sm align-top">
+            <div class="flex flex-col"><span class="leading-tight">${escapeHTML(m.desc)}</span>${technicalIdDisplay}</div>
+        </td>
+        <td class="px-8 py-5 font-mono text-xs border-b border-slate-100 break-all align-top leading-relaxed ${textFvClass}">${escapeHTML(fv)}</td>
+        <td class="px-8 py-5 font-mono text-xs border-b border-slate-100 break-all align-top leading-relaxed ${textGvClass}">${escapeHTML(gv)}</td>
+        <td class="px-8 py-5 text-center border-b border-slate-100 align-top">${statusBadge}</td>
+        <td class="px-8 py-5 font-mono text-slate-400 text-[10px] border-b border-slate-100 break-all opacity-70 align-top pt-5">${escapeHTML(refVal)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('resultBody').innerHTML = html;
+  document.getElementById('statTotal').innerText = stats.total;
+  document.getElementById('statMatch').innerText = stats.match;
+  document.getElementById('statDiff').innerText = stats.diff;
+  document.getElementById('statTime').innerText = new Date().toLocaleTimeString('id-ID');
+  document.getElementById('resultContainer').classList.remove('hidden');
+  document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  // Toggle Ref Header based on mode
+  const refHeader = document.getElementById('refHeader');
+  if (mapSchema === mapping) {
+      refHeader.classList.remove('hidden');
+  } else {
+      refHeader.classList.add('hidden');
+  }
+}
+
+function runCompare() {
+    runCompareGeneric(document.getElementById('fdstl_cmp').value, document.getElementById('msg_cmp').value, mapping);
+}
+function runCompareTRX() {
+    runCompareGeneric(document.getElementById('trx_raw').value, document.getElementById('trx_msg').value, mappingTRX);
+}
+function clearCompare() {
+    ['fdstl_cmp','msg_cmp','trx_raw','trx_msg'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.value='';
+    });
+    document.getElementById('resultContainer').classList.add('hidden');
+}
+
+/* === REKON LOGIC === */
+function parser(input, codePrefix){
+    if (!input) return "";
+    input = input.padEnd(400, ' ');
+    let rawAmt = input.slice(223, 223+8).trim();
+    if (!rawAmt) rawAmt = "0";
+    const finalAmt = rawAmt.padStart(12, '0');
+    const prefixInput = codePrefix.trim().padStart(3, '0'); 
+    const finalCode = "00000000" + prefixInput;
+    return `00|${input.slice(121,121+16)}|${input.slice(66,66+12)}|${input.slice(22,22+16)}|20${input.slice(42,42+6)}|${input.slice(179,179+6)}|000000|${finalAmt}|360|${input.trimEnd().slice(-20)}|${finalCode}|${input.slice(90,90+4)}|${input.slice(94,94+15)}|00000000${input.slice(165,165+3)}|00000360004|${input.slice(117,117+40)}|${input.slice(16,16+6)}|0${input.slice(157,157+11)}20${input.slice(200,200+12)}${input.slice(121,121+15)} ${input.slice(66,66+12)}|`;
+}
+
+function generateRekonContent() {
+    const ftxt = document.getElementById('fdstl_rekon').value || '';
+    if (!ftxt) {
+        alert("Please input FDSTL data.");
+        return null;
+    }
+    const bankCode = document.getElementById('cfg_bankCode').value || "000008";
+    const instId = document.getElementById('cfg_instId').value || "360004";
+    const fileDate = document.getElementById('cfg_date').value || "20251125";
+    const codePrefix = document.getElementById('cfg_codePrefix').value || "013"; 
+    const lines = ftxt.split(/\r?\n/).filter(line => line.trim() !== "");
+    
+    let totalAmount = 0;
+    const bodyLines = lines.map(line => {
+        const paddedLine = line.padEnd(400, ' ');
+        const amtStr = paddedLine.slice(223, 223+8).trim(); 
+        const amtVal = parseInt(amtStr, 10);
+        if(!isNaN(amtVal)) totalAmount += amtVal;
+        return parser(line, codePrefix);
+    });
+    const totalCount = bodyLines.length;
+    const header = `RH|${bankCode}|${instId}|${fileDate}`;
+    const trailer = `RT|${bankCode}|${instId}|${fileDate}|${totalCount}|${totalAmount}`;
+    const finalContent = [header, ...bodyLines, trailer].join("\r\n");
+    const filename = `DATA${bankCode}30000${fileDate}.REK`; // Format confirmed .REK
+
+    return { content: finalContent, filename: filename };
+}
+
+function previewRekon() {
+    const data = generateRekonContent();
+    if (!data) return;
+    
+    document.getElementById('rekonPreviewText').textContent = data.content;
+    document.getElementById('rekonPreview').classList.remove('hidden');
+    document.getElementById('rekonPreview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function downloadRekon() {
+    const data = generateRekonContent();
+    if (!data) return;
+
+    const blob = new Blob([data.content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = data.filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+}
+
+/* === DISPUTE LOGIC === */
+function parserDispute(input, codePrefix, fileDate, instId, description, disputeCode, disputeReason){
+    if (!input) return "";
+    input = input.padEnd(600, ' ');
+    
+    let rawAmt = input.slice(223, 223+8).trim();
+    if (!rawAmt) rawAmt = "0";
+    const finalAmt = rawAmt.padStart(12, '0');
+
+    const prefixInput = codePrefix.trim().padStart(3, '0'); 
+    const finalCode = "00000000" + prefixInput;
+
+    const trxDate = "20" + input.slice(42, 42+6);
+    
+    const finalDesc = description.padEnd(50, ' ').substring(0, 50);
+
+    // FIX: Updated return format as requested
+    return `DH|${fileDate}|${trxDate}|${finalAmt}|${disputeCode}|${disputeReason}|${finalDesc}|${input.slice(570, 570+16)}|${input.slice(66,66+12)}|${input.slice(22, 22+19)}|20${input.slice(42, 42+6)}|${input.slice(66, 72)}|000000|${finalAmt}|360|${input.trimEnd().slice(-20)}|${finalCode}|${input.slice(90, 94)}|${input.slice(94, 94+15)}|${input.slice(157, 157+11)}|00000${instId}|${input.slice(117, 117+40)}|${input.slice(16, 16+6)}|0${input.slice(157, 157+11)}20${input.slice(42, 42+6)}${input.slice(66, 66+6)}${input.slice(570, 570+16)}${input.slice(66,66+12)}`;
+}
+
+function generateDisputeContent() {
+    const ftxt = document.getElementById('fdstl_dispute').value || '';
+    if (!ftxt) {
+        alert("Please input FDSTL data for dispute.");
+        return null;
+    }
+
+    const bankCode = document.getElementById('cfg_disp_bankCode').value || "360003";
+    const instId = document.getElementById('cfg_disp_instId').value || "360004";
+    const fileDate = document.getElementById('cfg_disp_date').value || "20251126";
+    const codePrefix = document.getElementById('cfg_disp_codePrefix').value || "013";
+    const dispDesc = document.getElementById('cfg_disp_desc').value || "TEST FCB OFFNET JALIN AS ACQ";
+    const disputeCode = document.getElementById('cfg_disp_code').value || "30";
+    const disputeReason = document.getElementById('cfg_disp_reason').value || "1001";
+
+    const lines = ftxt.split(/\r?\n/).filter(line => line.trim() !== "");
+    
+    let totalAmount = 0;
+    const bodyLines = lines.map(line => {
+        const paddedLine = line.padEnd(600, ' ');
+        const amtStr = paddedLine.slice(223, 223+8).trim(); 
+        const amtVal = parseInt(amtStr, 10);
+        if(!isNaN(amtVal)) totalAmount += amtVal;
+
+        return parserDispute(line, codePrefix, fileDate, instId, dispDesc, disputeCode, disputeReason);
+    });
+
+    const totalCount = bodyLines.length;
+    const trailer = `RT|${bankCode}|${instId}|${fileDate}|${totalCount}|${totalAmount}`;
+    const header = `RH|${bankCode}|${instId}|${fileDate}`;
+    const finalContent = [header, ...bodyLines, trailer].join("\r\n");
+    
+    const shortDate = fileDate.length === 8 ? fileDate.substring(2) : fileDate;
+    const filename = `POS_DISPUTE_${bankCode}_${instId}_${shortDate}.TXT`;
+
+    return { content: finalContent, filename: filename };
+}
+
+function previewDispute() {
+    const data = generateDisputeContent();
+    if (!data) return;
+    
+    document.getElementById('disputePreviewText').textContent = data.content;
+    document.getElementById('disputePreview').classList.remove('hidden');
+    document.getElementById('disputePreview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function downloadDispute() {
+    const data = generateDisputeContent();
+    if (!data) return;
+
+    const blob = new Blob([data.content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = data.filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
