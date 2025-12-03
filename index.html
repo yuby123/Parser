@@ -756,11 +756,12 @@ const sampleArray = [
   {v:"S1AMWIA009", desc:"TERM_CODE"},
   {v:"0000000", desc:"DE-125 Prefix"}, {v:"00000", desc:"DE-125 Main"},
   {v:"O", desc:"Dest Owner"}, {v:"N", desc:"Retail Flag"},
-  {v:"00", desc:"ADDITIONAL_RESP_CODE"}, {v:"|||910A5D11C58B5FD95E233030\n||17021702211702170221", desc:"MULTILINE"}
+  {v:"00", desc:"ADDITIONAL_RESP_CODE"},
+  {
+    v:"|||910A5D11C58B5FD95E233030<br>||17021702211702170221",
+    desc:"MULTILINE"
+  }
 ];
-document.getElementById("output").textContent =
-  sampleArray.map(i => `${i.desc}: ${i.v}`).join("\n");
-    
 /* === MAPPING FOR TRX COMPARE (NEW) === */
 const mappingTRX = [
     {"key":"MTI","de":"DE-000","start":1,"end":4,"desc":"Message Type (MTI)"},
